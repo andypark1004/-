@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>학교 생활 알리미</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    #chatbox { width: 100%; max-width: 500px; height: 400px; border: 1px solid #ccc; padding: 10px; overflow-y: auto; }
+    .message { margin: 5px 0; }
+    .user { color: blue; }
+    .bot { color: green; }
+  </style>
+</head>
+<body>
+  <h1>학교 생활 알리미</h1>
+  <div id="chatbox"></div>
+  <input id="userInput" type="text" placeholder="메시지를 입력하세요" style="width: 457px;">
+  <button onclick="sendMessage()">보내기</button>
+
+  <script>
+    window.onload = function () {
+      const chatbox = document.getElementById("chatbox");
+      const usageMessage = `
+        <h3><strong>🤖 챗봇 사용법:</strong></h3>
+        1. 시간표가 궁금하시다면 요일을 포함하여 물어봐주세요.<br>
+        ex) 월요일 시간표 알려줘, 수요일 시간표 등<br>
+<br>
+        2. 시험 일정이 궁금하시다면 아래와 같이 물어봐주세요.<br>
+        ex) 시험 일정 알려줘, 시험 일정 등<br>
+<br>
+        3. 학교 행사가 궁금하시다면 아래와 같이 물어봐주세요.<br>
+        ex) 학교 행사 알려줘, 학교 행사 등<br>
+      `;
+      chatbox.innerHTML += `<div class="message bot">${usageMessage}</div>`;
+    };
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value;
+      input.value = "";
+
+      const chatbox = document.getElementById("chatbox");
+      chatbox.innerHTML += `<div class="message user">👤 ${message}</div>`;
+
+      fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const formatted = data.response.replace(/\n/g, "<br>");
+        chatbox.innerHTML += `<div class="message bot">🤖 ${formatted}</div>`;
+        chatbox.scrollTop = chatbox.scrollHeight;
+      });
+    }
+  </script>
+</body>
+</html>
