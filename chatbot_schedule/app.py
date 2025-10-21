@@ -11,12 +11,12 @@ timetable = [
 ]
 
 test_schedule = [
-    "10월 31일 구기 대회",
-    "돌곶이제"
+    "12월 8일부터 12일까지"
 ]
 
 school_event = [
-    "12월 8일부터 12일까지"
+    "10월 31일 구기 대회",
+    "돌곶이제"
 ]
 
 @app.route("/")
@@ -57,3 +57,4 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
     app.run(debug=True)
+
