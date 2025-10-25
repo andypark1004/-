@@ -56,7 +56,7 @@ def chat():
         response = "금요일 시간표: " + timetable[4]
         
     elif "수행평가" in user_message or "수행 평가" in user_message:
-        response = "✏️ 수행평가:<br>" + "<br>.join(f" - {item}" for item in assignments)
+        response = "✏️ 수행평가:<br>" + "<br>".join(f" - {item}" for item in assignments)
     
     else:
         response = "📢 요일이나 '시험 일정', '학교 행사', '수행평가'를 포함해서 질문해 주세요!"
@@ -67,5 +67,6 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
     app.run(debug=True)
+
 
 
