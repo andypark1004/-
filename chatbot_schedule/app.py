@@ -19,6 +19,13 @@ school_event = [
     "돌곶이제"
 ]
 
+assignments = [
+    "10월 28일 영어B 수행평가",
+    "10월 30일 과학C 수행평가",
+    "11월 4일 한국사 수행평가",
+    "11월 20일 국어B 수행평가"
+]
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -47,9 +54,12 @@ def chat():
     
     elif "금요일" in user_message:
         response = "금요일 시간표: " + timetable[4]
+        
+    elif "수행평가" in user_message or "수행 평가" in user_message:
+        response = "✏️ 수행평가:<br>" + "<br>.join(f" - {item}" for item in assignments)
     
     else:
-        response = "📢 요일이나 '시험 일정', '학교 행사'를 포함해서 질문해 주세요!"
+        response = "📢 요일이나 '시험 일정', '학교 행사', '수행평가'를 포함해서 질문해 주세요!"
 
     return jsonify({"response": response})
 
@@ -57,4 +67,5 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
     app.run(debug=True)
+
 
