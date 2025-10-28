@@ -20,7 +20,7 @@ school_event = [
 ]
 
 assignments = [
-    "10월 30일 과학C 수행평가",
+    "10월 30일 과학C 수행평가 있어요",
     "11월 4일 한국사 수행평가",
     "11월 20일 국어B 수행평가"
 ]
@@ -124,6 +124,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
     app.run(debug=True)
+
 
 
 
