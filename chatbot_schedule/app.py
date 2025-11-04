@@ -48,7 +48,6 @@ lunch_menu = {
     27: "흑미밥<br>순두부고추장찌개<br>생선까스+타르타르<br>3색야채계란찜<br>열무무침<br>배추김치<br>망고바",
     28: "흑미밥<br>돈채김치찌개<br>멘치까스<br>미니새송이볶음<br>콩나물무침<br>배추김치<br>양파링"
 }
-def get_date_info(user_message):
 
 @app.route("/")
 def index():
@@ -57,7 +56,9 @@ def index():
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message", "")
-    
+
+def get_date_info(user_message):    
+
     if not match:
         return None
 
@@ -70,9 +71,8 @@ def chat():
     try:
         day = int(day_num_str)
         # 11월 급식 딕셔너리에서 해당 날짜 정보 찾기
-        if day in november_lunch_menu:
-            # <br> 태그를 사용해 HTML에서 줄바꿈
-            return f"🍽️ 11월 {day}일 중식:<br>{november_lunch_menu[day]}"
+        if day in lunch_menu:
+            return f"🍽️ 11월 {day}일 급식:<br>{lunch_menu[day]}"
         else:
             # 11월이지만 해당 날짜에 급식이 없는 경우
             return f"11월 {day}일에는 중식 정보가 없습니다. (주말 또는 공휴일)"
@@ -102,7 +102,7 @@ def chat():
         response = "✏️ 수행평가 일정:<br>" + "<br>".join(f" - {item}" for item in assignments)
     
     else:
-        response = "📢 요일이나 '시험 일정', '학교 행사', '수행평가'를 포함해서 질문해 주세요!"
+        response = "📢 요일이나 '시험 일정', '학교 행사', '수행평가', '급식이 궁금 날짜'를 포함해서 질문해 주세요!"
 
     return jsonify({"response": response})
 
@@ -110,6 +110,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
     app.run(debug=True)
+
 
 
 
