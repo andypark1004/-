@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+import re
 
 app = Flask(__name__)
 
@@ -49,16 +50,10 @@ lunch_menu = {
     28: "흑미밥<br>돈채김치찌개<br>멘치까스<br>미니새송이볶음<br>콩나물무침<br>배추김치<br>양파링"
 }
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/chat", methods=["POST"])
-def chat():
-    user_message = request.json.get("message", "")
-
-def get_date_info(user_message):    
-
+def get_date_info(user_message):
+    pattern = r"(\d+)\s*월\s*(\d+)\s*일"
+    match = re.search(pattern, user_message)
+    
     if not match:
         return None
 
@@ -70,12 +65,21 @@ def get_date_info(user_message):
 
     try:
         day = int(day_num_str)
-        # 11월 급식 딕셔너리에서 해당 날짜 정보 찾기
         if day in lunch_menu:
             return f"🍽️ 11월 {day}일 급식:<br>{lunch_menu[day]}"
         else:
-            # 11월이지만 해당 날짜에 급식이 없는 경우
             return f"11월 {day}일에는 중식 정보가 없습니다. (주말 또는 공휴일)"
+    except ValueError:
+        return None
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    user_message = request.json.get("message", "")
+    response = None
 
     if "시험일정" in user_message or "시험 일정" in user_message:
         response = "📘 시험 일정:<br>" + "<br>".join(f" - {item}" for item in test_schedule)
@@ -101,24 +105,15 @@ def get_date_info(user_message):
     elif "수행평가" in user_message or "수행 평가" in user_message:
         response = "✏️ 수행평가 일정:<br>" + "<br>".join(f" - {item}" for item in assignments)
     
-    else:
-        response = "📢 요일이나 '시험 일정', '학교 행사', '수행평가', '급식이 궁금 날짜'를 포함해서 질문해 주세요!"
+    if response is None:
+        date_response = get_date_info(user_message)
+        if date_response:
+            response = date_response
+            
+    if response is None:
+        response = "📢 요일이나 '시험 일정', '학교 행사', '수행평가', '급식이 궁금한 날짜'를 포함해서 질문해 주세요!"
 
     return jsonify({"response": response})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
-    app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
+    app.run(host="0.0.0.0", port=5000, debug=True)
