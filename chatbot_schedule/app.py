@@ -16,13 +16,15 @@ test_schedule = [
 ]
 
 school_event = [
-    "10월 31일 구기 대회",
     "돌곶이제"
 ]
 
 assignments = [
     "11월 18일 영어B 수행평가",
-    "11월 20일 국어B 수행평가"
+    "11월 20일 국어B 수행평가",
+    "11월 24일 수학A 수행평가",
+    "11월 26일 사회A/B 수행평가",
+    "11월 27일 영어A 듣기 수행평가"
 ]
 
 lunch_menu = {
@@ -115,5 +117,6 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 
