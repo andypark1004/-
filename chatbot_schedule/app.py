@@ -12,7 +12,11 @@ timetable = [
 ]
 
 test_schedule = [
-    "12월 8일부터 12일까지"
+    "12월 8일 과학",
+    "12월 9일 수학",
+    "12월 10일 국어/한국사",
+    "12월 11일 영어",
+    "12월 12일 사회"
 ]
 
 school_event = [
@@ -117,6 +121,7 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 
 
