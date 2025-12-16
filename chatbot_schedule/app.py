@@ -58,15 +58,15 @@ def get_date_info(user_message):
     month_num_str = match.group(1)
     day_num_str = match.group(2)
 
-    if month_num_str != "11":
-        return "11월의 정보만 있습니다."
+    if month_num_str != "12":
+        return "12월의 정보만 있습니다."
 
     try:
         day = int(day_num_str)
         if day in lunch_menu:
-            return f"🍽️ 11월 {day}일 급식:<br>{lunch_menu[day]}"
+            return f"🍽️ 12월 {day}일 급식:<br>{lunch_menu[day]}"
         else:
-            return f"11월 {day}일에는 중식 정보가 없습니다."
+            return f"12월 {day}일에는 중식 정보가 없습니다."
     except ValueError:
         return None
 
@@ -115,6 +115,7 @@ def chat():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
 
 
 
